@@ -1,3 +1,6 @@
 [submodule "api"]
 	path = api
 	url = https://github.com/rikiulirniam/Ordira-API.git
+[submodule "fe"]
+	path = fe
+	url = https://github.com/Maulanaputra07/Ordira-Client.git
