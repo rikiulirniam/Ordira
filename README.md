@@ -1,6 +1,6 @@
 # Ordira
 
-Ordira adalah sebuah proyek (nama sementara) yang terdiri dari
+Ordira adalah sebuah proyek yang terdiri dari
 **frontend**, **backend API**, dan **database** yang berjalan
 menggunakan Docker. Proyek ini dikembangkan dalam repository
 `rikiulirniam/Ordira` dan dirancang sebagai sistem modular yang mudah
