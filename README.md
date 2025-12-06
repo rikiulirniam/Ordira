@@ -6,7 +6,7 @@ menggunakan Docker. Proyek ini dikembangkan dalam repository
 `rikiulirniam/Ordira` dan dirancang sebagai sistem modular yang mudah
 dijalankan dan dikembangkan.
 
-## 📌 Ringkasan
+## Ringkasan
 
 Ordira merupakan aplikasi berbasis web yang dibangun menggunakan
 arsitektur tiga layanan:\
@@ -18,7 +18,7 @@ Tujuan proyek: - Menyediakan struktur proyek yang rapi untuk
 pengembangan aplikasi modern. - Menggunakan Docker sebagai fondasi
 deployment agar mudah dibangun di berbagai lingkungan.
 
-## 🚀 Fitur
+## Fitur
 
 -   Frontend terpisah dengan build sendiri.
 -   Backend modular dengan Prisma ORM.
@@ -26,7 +26,7 @@ deployment agar mudah dibangun di berbagai lingkungan.
 -   Environment multilayer: frontend, backend, dan root environment.
 -   Orkestrasi service menggunakan Docker Compose.
 
-## 🛠️ Tumpukan Teknologi
+## Tech Stack
 
 -   **Frontend:** React (Ordira-Client)
 -   **Backend:** Node.js, Express, Prisma ORM (Ordira-API)
@@ -34,7 +34,7 @@ deployment agar mudah dibangun di berbagai lingkungan.
 -   **Containerization:** Docker & Docker Compose
 -   **Version Control:** Git & GitHub
 
-## 📂 Struktur Proyek
+## Struktur Proyek
 
     Ordira/
     ├── Ordira-Client/              # Frontend React
@@ -43,9 +43,9 @@ deployment agar mudah dibangun di berbagai lingkungan.
     ├── docker-compose.yml
     └── README.md
 
-## ⚙️ Instalasi & Menjalankan Proyek
+## Instalasi & Menjalankan Proyek
 
-### 1️⃣ Clone Repository
+### 1. Clone Repository
 
 ``` bash
 git clone https://github.com/rikiulirniam/Ordira.git
@@ -58,18 +58,18 @@ git clone https://github.com/Maulanaputra07/Ordira-Client.git
 git clone https://github.com/rikiulirniam/Ordira-API.git
 ```
 
-### 2️⃣ Konfigurasi Environment
+### 2. Konfigurasi Environment
 
 Pastikan file `.env` tersedia di masing-masing folder.
 
 
-#### 📌 Root .env (untuk database)
+#### Root .env (untuk database)
 
     DB_USER=postgres
     DB_PASS=yourpassword
     DB_NAME=ordira
 
-### 3️⃣ Menjalankan Menggunakan Docker Compose
+### 3. Menjalankan Menggunakan Docker Compose
 
 Jalankan semua service:
 
@@ -97,7 +97,7 @@ Stop:
 docker compose down
 ```
 
-## 🗄️ Database Initialization
+## Database Initialization
 Folder `db/` berisi file `init.sql` yang akan otomatis dijalankan oleh
 PostgreSQL saat container pertama kali dibuat.
 
@@ -113,7 +113,7 @@ GRANT ALL PRIVILEGES ON DATABASE db_ordira TO your_username;
 - Memberikan semua privileges ke user tersebut
 
 
-## 🐳 Detail Service Docker Compose
+## Detail Service Docker Compose
 
 ### **ordira-client**
 
@@ -134,7 +134,7 @@ GRANT ALL PRIVILEGES ON DATABASE db_ordira TO your_username;
 -   Volume: `ordira-storage`
 -   Auto-load file SQL dari folder `db/`
 
-## ▶️ Contoh Penggunaan API
+## Contoh Penggunaan API
 ```bash
 # Request
 curl -X POST http://localhost:7001/auth/login \
@@ -148,7 +148,7 @@ curl -X POST http://localhost:7001/auth/login \
     "data": {
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9....
 ```
-## 🧪 Testing
+## Testing
 
 ### Backend
 
@@ -164,7 +164,7 @@ cd Ordira-Client
 npm lint
 ```
 
-## 🤝 Kontribusi
+## Kontribusi
 
 1.  Fork repository
 2.  Buat branch baru
@@ -187,10 +187,10 @@ git push origin feat/nama-fitur
 
 5.  Buat Pull Request ke GitHub
 
-## 📄 Lisensi
+## Lisensi
 
 Proyek ini menggunakan lisensi **MIT License**.
 
-## 📬 Kontak
+## Kontak
 
 Maintainer: **rikiulirniam**
