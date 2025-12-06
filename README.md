@@ -1,119 +1,196 @@
 # Ordira
 
-Ordira adalah proyek (nama sementara) yang dikembangkan di repository rikiulirniam/Ordira. README ini adalah draf awal yang menjelaskan tujuan proyek, cara menjalankan, serta panduan kontribusi. Silakan sesuaikan bagian-bagian yang bertanda [TULISAN_DI_SINI] dengan detail spesifik proyek.
+Ordira adalah sebuah proyek (nama sementara) yang terdiri dari
+**frontend**, **backend API**, dan **database** yang berjalan
+menggunakan Docker. Proyek ini dikembangkan dalam repository
+`rikiulirniam/Ordira` dan dirancang sebagai sistem modular yang mudah
+dijalankan dan dikembangkan.
 
-## Ringkasan
+## 📌 Ringkasan
 
-Deskripsi singkat: [Jelaskan apa yang dilakukan Ordira — mis. aplikasi web, library, CLI, dsb.]
+Ordira merupakan aplikasi berbasis web yang dibangun menggunakan
+arsitektur tiga layanan:\
+- **Ordira-Client** --- frontend (React)
+- **Ordira-API** --- backend (Node.js / Express / Prisma)
+- **db-ordira** --- database PostgreSQL
 
-Tujuan utama:
-- [Tujuan 1]
-- [Tujuan 2]
+Tujuan proyek: - Menyediakan struktur proyek yang rapi untuk
+pengembangan aplikasi modern. - Menggunakan Docker sebagai fondasi
+deployment agar mudah dibangun di berbagai lingkungan.
 
-## Fitur
+## 🚀 Fitur
 
-- Fitur A (mis. otentikasi, penyimpanan, dsb.)
-- Fitur B
-- Fitur C
+-   Frontend terpisah dengan build sendiri.
+-   Backend modular dengan Prisma ORM.
+-   Integrasi database PostgreSQL melalui Docker.
+-   Environment multilayer: frontend, backend, dan root environment.
+-   Orkestrasi service menggunakan Docker Compose.
 
-## Tumpukan Teknologi
+## 🛠️ Tumpukan Teknologi
 
-Proyek ini dibuat menggunakan:
-- Bahasa: [contoh: JavaScript, TypeScript, Python, Go, dsb.]
-- Framework / Library: [contoh: React, Express, Django, dsb.]
-- Database: [jika ada]
-- Lainnya: [Docker, GitHub Actions, dsb.]
+-   **Frontend:** React (Ordira-Client)
+-   **Backend:** Node.js, Express, Prisma ORM (Ordira-API)
+-   **Database:** PostgreSQL 17
+-   **Containerization:** Docker & Docker Compose
+-   **Version Control:** Git & GitHub
 
-(Ubah sesuai komposisi bahasa/teknologi di repository.)
+## 📂 Struktur Proyek
 
-## Instalasi
+    Ordira/
+    ├── Ordira-Client/              # Frontend React
+    ├── Ordira-API/                 # Backend Node.js / Express / Prisma
+    ├── db/                         # SQL init files untuk Postgres
+    ├── docker-compose.yml
+    └── README.md
 
-1. Clone repository
+## ⚙️ Instalasi & Menjalankan Proyek
 
-   git clone https://github.com/rikiulirniam/Ordira.git
-   cd Ordira
+### 1️⃣ Clone Repository
 
-2. Persyaratan
+``` bash
+git clone https://github.com/rikiulirniam/Ordira.git
+cd Ordira
 
-   - Node >= X.X.X / Python >= X.X / Go >= X.X (sesuaikan)
-   - [Dependency manager, mis. npm, pip, go mod]
+# Cloning Repository Frontend
+git clone https://github.com/Maulanaputra07/Ordira-Client.git
 
-3. Instal dependency
-
-   Untuk Node (contoh):
-   npm install
-
-   Untuk Python (contoh):
-   pip install -r requirements.txt
-
-## Konfigurasi
-
-Salin file konfigurasi contoh dan atur variabel lingkungan:
-
-cp .env.example .env
-# lalu edit .env sesuai kebutuhan
-
-Pastikan juga mengatur koneksi database dan kredensial lain yang diperlukan.
-
-## Menjalankan
-
-Mode development (contoh Node):
-
-npm run dev
-
-Build production (contoh):
-
-npm run build
-npm start
-
-Untuk Python / lainnya sesuaikan perintahnya.
-
-## Contoh Penggunaan
-
-Berikan contoh singkat cara memakai aplikasi atau library ini.
-
-curl -X GET http://localhost:3000/health
-
-atau di kode (contoh):
-
-```javascript
-// Contoh penggunaan (sesuaikan)
-import Ordira from 'ordira'
-
-const app = new Ordira()
-app.start()
+# Cloning Repository Backend
+git clone https://github.com/rikiulirniam/Ordira-API.git
 ```
 
-## Testing
+### 2️⃣ Konfigurasi Environment
 
-Jalankan test suite:
+Pastikan file `.env` tersedia di masing-masing folder.
 
+
+#### 📌 Root .env (untuk database)
+
+    DB_USER=postgres
+    DB_PASS=yourpassword
+    DB_NAME=ordira
+
+### 3️⃣ Menjalankan Menggunakan Docker Compose
+
+Jalankan semua service:
+
+``` bash
+docker compose up --build -d
+```
+```
+Service yang berjalan:
+
+  Service         Port Lokal    Deskripsi
+  --------------- ------------- -------------
+  ordira-client   7000 → 80     Frontend
+  ordira-api      7001 → 3000   Backend API
+  db-ordira       Internal      PostgreSQL
+```
+Cek container:
+
+``` bash
+docker ps
+```
+
+Stop:
+
+``` bash
+docker compose down
+```
+
+## 🗄️ Database Initialization
+Folder `db/` berisi file `init.sql` yang akan otomatis dijalankan oleh
+PostgreSQL saat container pertama kali dibuat.
+
+### Isi file : 
+```sql
+CREATE ROLE your_username WITH LOGIN PASSWORD 'your_password';
+CREATE DATABASE db_ordira OWNER your_username;
+GRANT ALL PRIVILEGES ON DATABASE db_ordira TO your_username;
+```
+
+- Membuat user baru (`your_username`)
+- Membuat database baru (`db_ordira`)
+- Memberikan semua privileges ke user tersebut
+
+
+## 🐳 Detail Service Docker Compose
+
+### **ordira-client**
+
+-   Build dari `Ordira-Client`
+-   Menggunakan environment `Ordira-Client/.env`
+-   Port publik: **7000**
+
+### **ordira-api**
+
+-   Build dari `Ordira-API`
+-   Menggunakan environment `Ordira-API/.env`
+-   Port publik: **7001**
+
+### **db-ordira**
+
+-   Image: `postgres:17.2`
+-   Environment dari root `.env`
+-   Volume: `ordira-storage`
+-   Auto-load file SQL dari folder `db/`
+
+## ▶️ Contoh Penggunaan API
+```bash
+# Request
+curl -X POST http://localhost:7001/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin123"}'
+
+# Response
+{
+    "status": "success",
+    "message": "Logged in",
+    "data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9....
+```
+## 🧪 Testing
+
+### Backend
+
+``` bash
+cd Ordira-API
 npm test
+```
 
-atau sesuaikan dengan framework testing yang dipakai.
+### Frontend
 
-## Contributing
+``` bash
+cd Ordira-Client
+npm lint
+```
 
-Terima kasih atas minat berkontribusi! Silakan ikuti langkah berikut:
+## 🤝 Kontribusi
 
-1. Fork repository
-2. Buat branch baru: git checkout -b feat/nama-fitur
-3. Commit perubahan: git commit -m "Menambahkan fitur X"
-4. Push ke branch: git push origin feat/nama-fitur
-5. Buka pull request di GitHub
+1.  Fork repository
+2.  Buat branch baru
 
-Tambahkan juga file CONTRIBUTING.md jika ingin aturan kontribusi rinci.
+``` bash
+git checkout -b feat/nama-fitur
+```
 
-## Lisensi
+3.  Commit perubahan
 
-Proyek ini dilisensikan di bawah [TULISAN_DI_SINI - mis. MIT License]. Sesuaikan atau tambahkan file LICENSE di repository.
+``` bash
+git commit -m "feat: menambahkan fitur X"
+```
 
-## Kontak
+4.  Push
 
-Pembuat / Maintainer: rikiulirniam
+``` bash
+git push origin feat/nama-fitur
+```
 
-Jika ingin bantuan penulisan README lebih rinci (mis. menautkan diagram arsitektur, menambahkan badge CI, contoh konfigurasi .env), beri tahu bagian mana yang ingin Anda lengkapi dan saya akan perbarui README.
+5.  Buat Pull Request ke GitHub
 
----
+## 📄 Lisensi
 
-Catatan: README ini adalah draf generik. Saya dapat menyesuaikannya dengan mengekstrak informasi langsung dari isi repository (bahasa, dependensi, skrip npm, dsb.). Jika Anda ingin, saya bisa memindai repo dan memperbarui README otomatis sesuai isi proyek. Jika mau, beri izin untuk mengakses repository sekarang.
+Proyek ini menggunakan lisensi **MIT License**.
+
+## 📬 Kontak
+
+Maintainer: **rikiulirniam**
