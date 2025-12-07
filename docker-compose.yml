@@ -1,0 +1,50 @@
+services:
+  ordira-client:
+    container_name: ordira-client
+    restart: always
+    build:
+      context: ./Ordira-Client
+      dockerfile: Dockerfile
+    env_file:
+      - ./Ordira-Client/.env
+    ports:
+      - "7000:80"
+    networks:
+      - ordira-networks
+  ordira-api:
+    container_name: ordira-api
+    restart: always
+    build:
+      context: Ordira-API
+      dockerfile: Dockerfile
+    env_file:
+      - ./Ordira-API/.env
+    ports:
+      - "7001:3000"
+    networks:
+      - ordira-networks
+
+  db-ordira:
+    container_name: db-ordira
+    image: postgres:17.2
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - ordira-storage:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d/
+    networks:
+      - ordira-networks
+
+
+networks:
+  ordira-networks: 
+    driver: bridge
+
+volumes:
+  ordira-storage:
